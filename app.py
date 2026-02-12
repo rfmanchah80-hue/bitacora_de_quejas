@@ -115,3 +115,17 @@ elif menu == "📂 BITÁCORA":
     st.header("CONSULTA DE QUEJAS")
     st.write("Visualización de la hoja 'quejas' de BDReportesQuejas.")
     # Espacio para st.dataframe(df)    
+    
+    try:
+        # Crear la conexión usando los secretos que acabas de configurar
+        conn = st.connection("gsheets", type=GSheetsConnection)
+        
+        # Leer la pestaña 'quejas'
+        df = conn.read(worksheet="quejas")
+        
+        # Mostrar la tabla con estilo profesional
+        st.dataframe(df, use_container_width=True, hide_index=True)
+        
+    except Exception as e:
+        st.error(f"Error al conectar con Google Sheets: {e}")
+        st.info("Asegúrate de haber compartido el archivo con el correo de la cuenta de servicio.")
